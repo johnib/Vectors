@@ -23,7 +23,7 @@ public class Vec {
 	 * Initialize vector to (0,0,0)
 	 */
 	public Vec() {
-		//TODO: 
+        this(0, 0, 0);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class Vec {
 	 *            Vector
 	 */
 	public Vec(Vec v) {
-		//TODO:
+        this(v.x, v.y, v.z);
 	}
 
 	/**
@@ -70,7 +70,9 @@ public class Vec {
 	 *            Vector
 	 */
 	public void add(Vec a) {
-		//TODO:
+		this.x += a.x;
+        this.y += a.y;
+        this.z += a.z;
 	}
 
 	/**
@@ -80,7 +82,9 @@ public class Vec {
 	 *            Vector
 	 */
 	public void sub(Vec a) {
-		//TODO:
+		this.x -= a.x;
+        this.y -= a.y;
+        this.z -= a.z;
 	}
 	
 	/**
@@ -92,7 +96,9 @@ public class Vec {
 	 *            Vector
 	 */
 	public void mac(double s, Vec a) {
-		//TODO:
+		this.x += s * a.x;
+        this.y += s * a.y;
+        this.z += s * a.z;
 	}
 
 	/**
@@ -102,7 +108,9 @@ public class Vec {
 	 *            Scalar
 	 */
 	public void scale(double s) {
-		//TODO:
+		this.x *= s;
+        this.y *= s;
+        this.z *= s;
 	}
 
 	/**
@@ -130,8 +138,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double length() {
-		//TODO:
-		return Double.NaN;
+		return Math.sqrt(dotProd(this));
 	}
 
 	/**
@@ -152,8 +159,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double dotProd(Vec a) {
-		//TODO:
-		return Double.NaN;
+		return this.x * a.x + this.y * a.y + this.z * a.z;
 	}
 
 	/**
@@ -162,7 +168,10 @@ public class Vec {
 	 * @throws ArithmeticException
 	 */
 	public void normalize() throws ArithmeticException {
-		//TODO:
+		double len = length();
+        this.x /= len;
+        this.y /= len;
+        this.z /= len;
 	}
 
 	/**
@@ -173,7 +182,7 @@ public class Vec {
 	 * @return True if have same values, false otherwise
 	 */
 	public boolean equals(Vec a) {
-		return ((a.x == x) && (a.y == y) && (a.z == z));
+		return ((a.x == this.x) && (a.y == this.y) && (a.z == this.z));
 	}
 
 	/**
@@ -185,8 +194,8 @@ public class Vec {
 	 * @return the angle in radians in the range [0,PI]
 	 */
 	public final double angle(Vec v1) {
-		//TODO:
-		return Double.NaN;
+        double tetha = Math.acos(dotProd(v1) / (length() * v1.length()));
+		return Math.min(tetha, Math.PI - tetha);
 	}
 
 	/**
@@ -199,8 +208,8 @@ public class Vec {
 	 * @return Scalar
 	 */
 	static public double distance(Vec a, Vec b) {
-		//TODO:
-		return Double.NaN;
+        a.sub(b);
+		return a.length();
 	}
 
 	/**
@@ -212,9 +221,8 @@ public class Vec {
 	 *            Vector2
 	 * @return Vector1 x Vector2
 	 */
-	public static Vec crossProd(Vec a, Vec b) {	
-		//TODO: 
-		return null;
+	public static Vec crossProd(Vec a, Vec b) {
+		return new Vec(a.y * b.z - b.y * a.z, a.x * b.z + b.x * a.z, a.x * b.y - b.x * a.y);
 	}
 
 	/**
@@ -227,8 +235,7 @@ public class Vec {
 	 * @return a+b
 	 */
 	public static Vec add(Vec a, Vec b) {
-		//TODO:
-		return null;
+		return new Vec(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
 
 	/**
@@ -241,8 +248,7 @@ public class Vec {
 	 * @return a-b
 	 */
 	public static Vec sub(Vec a, Vec b) {
-		//TODO:
-		return null;
+		return new Vec(a.x - b.x, a.y - b.y, a.z - b.z);
 	}
 
 	/**
@@ -253,8 +259,8 @@ public class Vec {
 	 * @return -1*a
 	 */
 	public static Vec negate(Vec a) {
-		//TODO:
-		return null;
+        a.scale((-1));
+		return new Vec(a);
 	}
 
 	/**
@@ -267,9 +273,9 @@ public class Vec {
 	 * @return s*a
 	 */
 	public static Vec scale(double s, Vec a) {
-		//TODO:
-		return null;
-	}
+        a.scale(s);
+        return new Vec(a);
+    }
 
 	/**
 	 * Pair-wise scales vector a by vector b
@@ -295,8 +301,7 @@ public class Vec {
 	 * @return a==b
 	 */
 	public static boolean equals(Vec a, Vec b) {
-		//TODO:
-		return false;
+		return a.equals(b);
 	}
 
 	/**
@@ -309,8 +314,7 @@ public class Vec {
 	 * @return a.b
 	 */
 	public static double dotProd(Vec a, Vec b) {
-		//TODO:
-		return Double.NaN;
+		return a.dotProd(b);
 	}
 
 	/**
