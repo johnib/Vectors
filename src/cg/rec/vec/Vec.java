@@ -59,8 +59,12 @@ public class Vec {
 	 * @return The reflected vector
 	 */
 	public Vec reflect(Vec normal) {
-		//TODO:
-		return null;
+        Vec n = normal.clone();
+        n.normalize();
+        n.scale(2 * this.dotProd(n));
+        Vec r = this.clone();
+        r.sub(n);
+		return r;
 	}
 
 	/**
@@ -120,16 +124,18 @@ public class Vec {
 	 *            Vector
 	 */
 	public void scale(Vec a) {
-		//TODO:
+		this.x *= a.x;
+        this.y *= a.y;
+        this.z *= a.z;
 	}
 
 	/**
 	 * Inverses vector
-	 * 
-	 * @return Vector
 	 */
 	public void negate() {
-		//TODO:
+		this.x = -x;
+        this.y = -y;
+        this.z = -z;
 	}
 
 	/**
@@ -147,8 +153,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double lengthSquared() {
-		//TODO:
-		return Double.NaN;		
+		return this.x * this.x + this.y * this.y + this.z * this.z;
 	}
 
 	/**
@@ -169,6 +174,7 @@ public class Vec {
 	 */
 	public void normalize() throws ArithmeticException {
 		double len = length();
+        if (len == 0) throw new ArithmeticException();
         this.x /= len;
         this.y /= len;
         this.z /= len;
@@ -194,8 +200,7 @@ public class Vec {
 	 * @return the angle in radians in the range [0,PI]
 	 */
 	public final double angle(Vec v1) {
-        double tetha = Math.acos(dotProd(v1) / (length() * v1.length()));
-		return Math.min(tetha, Math.PI - tetha);
+        return Math.acos(this.dotProd(v1) / (this.length() * v1.length()));
 	}
 
 	/**
@@ -222,7 +227,7 @@ public class Vec {
 	 * @return Vector1 x Vector2
 	 */
 	public static Vec crossProd(Vec a, Vec b) {
-		return new Vec(a.y * b.z - b.y * a.z, a.x * b.z + b.x * a.z, a.x * b.y - b.x * a.y);
+		return new Vec(a.y * b.z - b.y * a.z, -(a.x * b.z - b.x * a.z), a.x * b.y - b.x * a.y);
 	}
 
 	/**
@@ -287,8 +292,7 @@ public class Vec {
 	 * @return a.*b
 	 */
 	public static Vec scale(Vec a, Vec b) {
-		//TODO:
-		return null;
+		return new Vec(a.x * b.x, a.y * b.y, a.z * b.z);
 	}
 
 	/**
