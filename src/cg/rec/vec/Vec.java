@@ -144,7 +144,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double length() {
-		return Math.sqrt(dotProd(this));
+		return Math.sqrt(this.dotProd(this));
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double lengthSquared() {
-		return this.x * this.x + this.y * this.y + this.z * this.z;
+		return this.dotProd(this);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double dotProd(Vec a) {
-		return this.x * a.x + this.y * a.y + this.z * a.z;
+		return dotProd(this, a);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Vec {
 	 * @throws ArithmeticException
 	 */
 	public void normalize() throws ArithmeticException {
-		double len = length();
+		double len = this.length();
         if (len == 0) throw new ArithmeticException();
         this.x /= len;
         this.y /= len;
@@ -213,8 +213,8 @@ public class Vec {
 	 * @return Scalar
 	 */
 	static public double distance(Vec a, Vec b) {
-        a.sub(b);
-		return a.length();
+        double x = a.x - b.x, y = a.y - b.y, z = a.z - b.z;
+        return Math.sqrt(x * x + y * y + z * z);
 	}
 
 	/**
@@ -264,8 +264,7 @@ public class Vec {
 	 * @return -1*a
 	 */
 	public static Vec negate(Vec a) {
-        a.scale((-1));
-		return new Vec(a);
+		return scale(-1, a);
 	}
 
 	/**
@@ -278,8 +277,7 @@ public class Vec {
 	 * @return s*a
 	 */
 	public static Vec scale(double s, Vec a) {
-        a.scale(s);
-        return new Vec(a);
+        return new Vec(s * a.x, s * a.y, s * a.z);
     }
 
 	/**
@@ -318,7 +316,7 @@ public class Vec {
 	 * @return a.b
 	 */
 	public static double dotProd(Vec a, Vec b) {
-		return a.dotProd(b);
+		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
 	/**
